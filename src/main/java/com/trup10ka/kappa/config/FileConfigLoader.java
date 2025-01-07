@@ -5,12 +5,7 @@ import com.electronwill.nightconfig.core.file.FileConfig;
 import com.electronwill.nightconfig.core.file.NoFormatFoundException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import static com.trup10ka.kappa.util.FileUtil.copyFileIfNotExists;
 
 public class FileConfigLoader implements ConfigLoader
 {
@@ -26,6 +21,7 @@ public class FileConfigLoader implements ConfigLoader
     @NotNull
     public KappaConfig loadConfig()
     {
+        copyFileIfNotExists("config.conf", "config.conf");
         try (FileConfig fileConfig = FileConfig.of(filePath))
         {
             fileConfig.load();
@@ -39,27 +35,9 @@ public class FileConfigLoader implements ConfigLoader
         }
         catch (NoFormatFoundException e)
         {
-            System.err.println("No file with supported format found, generating template config, restart application");
-            generateTemplateConfig();
+            copyFileIfNotExists("config.conf", "config.conf");
             System.exit(1);
             return null;
-        }
-    }
-
-    private void generateTemplateConfig()
-    {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("defaultConfig.conf"))
-        {
-            if (inputStream == null)
-            {
-                throw new FileNotFoundException("Default config file not found in resources");
-            }
-            Files.copy(inputStream, Paths.get("config.conf"), StandardCopyOption.REPLACE_EXISTING);
-        }
-        catch (IOException e)
-        {
-            System.err.println("Failed to generate template config, program is exiting, try running again");
-            System.exit(1);
         }
     }
 }
