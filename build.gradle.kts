@@ -10,9 +10,13 @@ repositories {
     mavenCentral()
 }
 
+var hoconParserVersion = "3.8.1"
 var jetbrainsAnnotationsVersion = "24.0.0"
 
 dependencies {
+
+    /* ==== Config ==== */
+    implementation("com.electronwill.night-config:hocon:$hoconParserVersion")
 
     /* ====  Utils  ==== */
     implementation("org.jetbrains:annotations:$jetbrainsAnnotationsVersion")
