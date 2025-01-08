@@ -8,3 +8,6 @@ build/
 .idea
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+### Misc ###
+.run
