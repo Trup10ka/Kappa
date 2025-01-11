@@ -11,4 +11,8 @@ public record KappaConfig(
         @NotNull IsolationSecurity dbIsolationSecurity
 )
 {
+    public String getDbUrl()
+    {
+        return String.format("jdbc:mysql://%s/%s", dbHost, dbName);
+    }
 }
