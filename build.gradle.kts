@@ -10,18 +10,33 @@ repositories {
     mavenCentral()
 }
 
+/* ==== HikariCP ==== */
+var hikariCPVersion = "6.2.1"
+
+/* ==== Config ==== */
 var hoconParserVersion = "3.8.1"
+
+/* ====  Utils  ==== */
 var jetbrainsAnnotationsVersion = "24.0.0"
+var jdbcVersion = "8.0.33"
+
+/* ==== JUnit 5 ==== */
+var junitVersion = "5.10.0"
 
 dependencies {
+
+    /* ==== HikariCP ==== */
+    implementation("com.zaxxer:HikariCP:$hikariCPVersion")
 
     /* ==== Config ==== */
     implementation("com.electronwill.night-config:hocon:$hoconParserVersion")
 
     /* ====  Utils  ==== */
     implementation("org.jetbrains:annotations:$jetbrainsAnnotationsVersion")
+    implementation("mysql:mysql-connector-java:$jdbcVersion")
 
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    /* ==== JUnit 5 ==== */
+    testImplementation(platform("org.junit:junit-bom:$junitVersion"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
