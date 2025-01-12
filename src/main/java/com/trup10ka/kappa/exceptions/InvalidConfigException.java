@@ -6,9 +6,4 @@ public class InvalidConfigException extends Exception
     {
         super("Invalid configuration value for field: " + field);
     }
-
-    public InvalidConfigException(String field, String message)
-    {
-        super("Invalid configuration value for field: " + field + ". " + message);
-    }
 }
