@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class HikariDbClient implements DbClient
+public class HikariDbClient extends DbClient
 {
     @NotNull
     private final KappaConfig config;

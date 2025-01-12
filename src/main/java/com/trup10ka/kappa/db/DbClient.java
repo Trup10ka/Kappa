@@ -5,14 +5,16 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
 
-public interface DbClient
-{
-    void init();
 
-    void testConnection() throws InvalidConfigException;
+public abstract class DbClient
+{
+
+    public abstract void init();
+
+    public abstract void testConnection() throws InvalidConfigException;
 
     @NotNull
-    DataSource getDataSource();
+    public abstract DataSource getDataSource();
 
-    void close();
+    public abstract void close();
 }
