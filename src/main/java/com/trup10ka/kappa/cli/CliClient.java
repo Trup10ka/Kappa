@@ -1,9 +1,7 @@
 package com.trup10ka.kappa.cli;
 
 import com.trup10ka.kappa.cli.commands.*;
-import com.trup10ka.kappa.config.ConfigLoader;
-import com.trup10ka.kappa.config.FileConfigLoader;
-import com.trup10ka.kappa.config.KappaConfig;
+import com.trup10ka.kappa.db.DbClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,15 +15,9 @@ import static com.trup10ka.kappa.cli.commands.CommandIdentifier.EXIT;
 
 public class CliClient
 {
-
-    @NotNull
-    private final ConfigLoader configLoader = new FileConfigLoader("config.conf");
-
-
-
     @NotNull
     private final Map<String, Command> commands = Map.of(
-            CREATE_TRANSACTION.identifier, new CreateTransactionCommand(CREATE_TRANSACTION),
+            CREATE_TRANSACTION.identifier, new InsertCustomerCommand(CREATE_TRANSACTION, this),
             DELETE_TRANSACTION.identifier, new DeleteTransactionCommand(DELETE_TRANSACTION),
             EXIT.identifier, new ExitCommand()
     );
@@ -33,11 +25,12 @@ public class CliClient
     @NotNull
     private final Scanner scanner = new Scanner(System.in);
 
-    public void init()
+    @NotNull
+    private final DbClient dbClient;
+
+    public CliClient(@NotNull DbClient dbClient)
     {
-        System.out.println("Loading config file...");
-        KappaConfig config = configLoader.loadConfig();
-        System.out.println(config);
+        this.dbClient = dbClient;
     }
 
     public void start()
@@ -95,5 +88,11 @@ public class CliClient
         String[] inputParts = input.split(" ");
 
         return CommandIdentifier.fromString(inputParts[0]);
+    }
+
+    @NotNull
+    public DbClient getDbClient()
+    {
+        return dbClient;
     }
 }
