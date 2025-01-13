@@ -1,6 +1,7 @@
 package com.trup10ka.kappa.cli.commands;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DeleteTransactionCommand extends Command
 {
@@ -11,7 +12,7 @@ public class DeleteTransactionCommand extends Command
     }
 
     @Override
-    public @NotNull String execute()
+    public @NotNull String execute(@Nullable String args)
     {
         return "Executed";
     }
