@@ -1,6 +1,9 @@
 package com.trup10ka.kappa.db;
 
 import com.trup10ka.kappa.config.KappaConfig;
+import com.trup10ka.kappa.db.services.CustomerService;
+import com.trup10ka.kappa.db.services.HikariCustomerService;
+import com.trup10ka.kappa.db.services.ServiceManager;
 import com.trup10ka.kappa.exceptions.InvalidConfigException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -16,6 +19,8 @@ public class HikariDbClient extends DbClient
     private final KappaConfig config;
 
     private HikariDataSource hikariDataSource;
+
+    private final ServiceManager serviceManager = new ServiceManager(this);
 
     public HikariDbClient(@NotNull KappaConfig config)
     {
@@ -57,12 +62,6 @@ public class HikariDbClient extends DbClient
         hikariDataSource.close();
     }
 
-    @Override
-    @NotNull
-    public DataSource getDataSource()
-    {
-        return hikariDataSource;
-    }
 
     private void initHikariPool(HikariConfig config)
     {
@@ -85,5 +84,18 @@ public class HikariDbClient extends DbClient
         config.setMinimumIdle(2);
         config.setConnectionTimeout(30000); // 30 seconds
         config.setMaxLifetime(1800000); // 30 minutes
+    }
+
+    @Override
+    public @NotNull ServiceManager getServiceManager()
+    {
+        return serviceManager;
+    }
+
+    @Override
+    @NotNull
+    public DataSource getDataSource()
+    {
+        return hikariDataSource;
     }
 }

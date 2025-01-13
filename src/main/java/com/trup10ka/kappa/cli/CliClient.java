@@ -2,6 +2,8 @@ package com.trup10ka.kappa.cli;
 
 import com.trup10ka.kappa.cli.commands.*;
 import com.trup10ka.kappa.db.DbClient;
+import com.trup10ka.kappa.db.services.CustomerService;
+import com.trup10ka.kappa.db.services.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,11 +18,7 @@ import static com.trup10ka.kappa.cli.commands.CommandIdentifier.EXIT;
 public class CliClient
 {
     @NotNull
-    private final Map<String, Command> commands = Map.of(
-            CREATE_TRANSACTION.identifier, new InsertCustomerCommand(CREATE_TRANSACTION, this),
-            DELETE_TRANSACTION.identifier, new DeleteTransactionCommand(DELETE_TRANSACTION),
-            EXIT.identifier, new ExitCommand()
-    );
+    private Map<String, Command> commands;
 
     @NotNull
     private final Scanner scanner = new Scanner(System.in);
@@ -31,6 +29,8 @@ public class CliClient
     public CliClient(@NotNull DbClient dbClient)
     {
         this.dbClient = dbClient;
+
+        initCommands();
     }
 
     public void start()
@@ -54,6 +54,7 @@ public class CliClient
     private void tryMatchCommandAndExecute(@NotNull String input)
     {
         CommandIdentifier commandIdentifier = parseCommand(input);
+        String args = input.split(" ", 2).length > 1 ? input.split(" ", 2)[1] : null;
 
         if (commandIdentifier == null)
         {
@@ -61,10 +62,10 @@ public class CliClient
             return;
         }
 
-        executeCommand(commandIdentifier);
+        executeCommand(commandIdentifier, args);
     }
 
-    private void executeCommand(@NotNull CommandIdentifier commandIdentifier)
+    private void executeCommand(@NotNull CommandIdentifier commandIdentifier, String args)
     {
         Command command = commands.get(commandIdentifier.identifier);
 
@@ -74,7 +75,7 @@ public class CliClient
             return;
         }
 
-        String result = command.execute();
+        String result = command.execute(args);
 
         if (!result.isEmpty())
         {
@@ -94,5 +95,16 @@ public class CliClient
     public DbClient getDbClient()
     {
         return dbClient;
+    }
+
+    public void initCommands()
+    {
+        ServiceManager serviceManager = dbClient.getServiceManager();
+
+        commands = Map.of(
+                CREATE_TRANSACTION.identifier, new InsertCustomerCommand(CREATE_TRANSACTION, serviceManager.getCustomerService()),
+                DELETE_TRANSACTION.identifier, new DeleteTransactionCommand(DELETE_TRANSACTION),
+                EXIT.identifier, new ExitCommand()
+        );
     }
 }
