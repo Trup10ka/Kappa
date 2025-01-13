@@ -16,9 +16,9 @@ public class ServiceManager
     {
         this.dbClient = dbClient;
 
-        customerService = new HikariCustomerService(dbClient);
-        orderService = new HikariOrderService(dbClient);
-        productService = new HikariProductService(dbClient);
+        customerService = new CustomerHikariService(dbClient);
+        orderService = new OrderHikariService(dbClient);
+        productService = new ProductHikariService(dbClient);
     }
 
     public CustomerService getCustomerService()

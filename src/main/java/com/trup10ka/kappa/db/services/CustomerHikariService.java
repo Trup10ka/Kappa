@@ -8,12 +8,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 
-public class HikariCustomerService implements CustomerService
+public class CustomerHikariService implements CustomerService
 {
 
     private final DbClient dbClient;
 
-    public HikariCustomerService(DbClient dbClient)
+    public CustomerHikariService(DbClient dbClient)
     {
         this.dbClient = dbClient;
     }

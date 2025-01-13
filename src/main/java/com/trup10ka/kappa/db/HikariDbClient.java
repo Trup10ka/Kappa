@@ -1,8 +1,6 @@
 package com.trup10ka.kappa.db;
 
 import com.trup10ka.kappa.config.KappaConfig;
-import com.trup10ka.kappa.db.services.CustomerService;
-import com.trup10ka.kappa.db.services.HikariCustomerService;
 import com.trup10ka.kappa.db.services.ServiceManager;
 import com.trup10ka.kappa.exceptions.InvalidConfigException;
 import com.zaxxer.hikari.HikariConfig;
