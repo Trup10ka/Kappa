@@ -1,5 +1,7 @@
 package com.trup10ka.kappa.cli.commands;
 
+import com.trup10ka.kappa.cli.arguments.CommandArgumentParser;
+import com.trup10ka.kappa.cli.arguments.StrictPairArgumentParser;
 import com.trup10ka.kappa.data.Customer;
 import com.trup10ka.kappa.data.CustomerSex;
 import com.trup10ka.kappa.db.services.CustomerService;
@@ -7,11 +9,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public class InsertCustomerCommand extends Command
 {
 
     private final CustomerService customerService;
+
+    private final CommandArgumentParser argumentParser = new StrictPairArgumentParser(new String[] {"-fn", "-ln", "-s", "-c"} );
 
     public InsertCustomerCommand(CommandIdentifier identifier, CustomerService customerService)
     {
@@ -27,9 +32,13 @@ public class InsertCustomerCommand extends Command
             return "No arguments provided";
         }
 
-        String[] arguments = args.split(" ");
-        Customer customer = parseCustomer(arguments);
+        Map<String, String> parsedArguments = argumentParser.parse(args);
+        if (parsedArguments.isEmpty())
+        {
+            return "Failed to parse arguments";
+        }
 
+        Customer customer = parseCustomer(parsedArguments);
         if (customer == null)
         {
             return "Customer not inserted, client error";
@@ -51,28 +60,19 @@ public class InsertCustomerCommand extends Command
     }
 
     @Nullable
-    private Customer parseCustomer(String[] args)
+    private Customer parseCustomer(Map<String, String> parsedArguments)
     {
-        if (args.length < 3)
+        String firstName = parsedArguments.get("-fn");
+        String lastName = parsedArguments.get("-ln");
+        CustomerSex sex = parseSex(parsedArguments.getOrDefault("-s", null));
+        int credits = parseCredits(parsedArguments.get("-c"));
+
+        if (!checkIfAllMandatoryFieldsArePresent(firstName, lastName, sex))
         {
             return null;
         }
 
-        String firstName = args[0];
-        String lastName = args[1];
-        CustomerSex sex = parseSex(args[2]);
-        int credits = parseCredits(args);
-
-        if (!checkIfAllMandatoryFieldsArePresent(firstName, lastName, sex))
-            return null;
-
-
-        return new Customer(
-                firstName,
-                lastName,
-                sex,
-                credits
-        );
+        return new Customer(firstName, lastName, sex, credits);
     }
 
     @Nullable
@@ -82,6 +82,8 @@ public class InsertCustomerCommand extends Command
         {
             return CustomerSex.valueOf(sexAsString);
         }
+        catch (NullPointerException ignored)
+        {}
         catch (IllegalArgumentException e)
         {
             System.out.println("Sex was not received in a valid format, possible values are: " + Arrays.toString(CustomerSex.values()));
@@ -89,22 +91,17 @@ public class InsertCustomerCommand extends Command
         return null;
     }
 
-    private int parseCredits(String[] args)
+    private int parseCredits(String arg)
     {
-        int credits = 0;
+        int credits;
         try
         {
-            credits = Integer.parseInt(args[3]);
-            return credits;
-        }
-        catch (ArrayIndexOutOfBoundsException e)
-        {
-            System.out.println("No credits provided, setting to default value of 0");
+            credits = Integer.parseInt(arg);
             return credits;
         }
         catch (NumberFormatException e)
         {
-            System.out.println("Credits are not in a valid integer format");
+            System.out.println(" -c : Credits are not in a valid integer format or not provided");
             return -1;
         }
     }
@@ -115,19 +112,19 @@ public class InsertCustomerCommand extends Command
 
         if (firstName == null)
         {
-            System.out.println("First name not provided");
+            System.out.println(" -fn : First name not provided");
             ret = false;
         }
 
         if (lastName == null)
         {
-            System.out.println("Last name not provided");
+            System.out.println(" -ln : Last name not provided");
             ret = false;
         }
 
         if (sex == null)
         {
-            System.out.println("Sex not provided");
+            System.out.println(" -s : Sex not provided");
             ret = false;
         }
 
