@@ -5,11 +5,9 @@ import org.jetbrains.annotations.Nullable;
 public enum CommandIdentifier
 {
 
-    CREATE_TRANSACTION("create-t"),
-    DELETE_TRANSACTION("delete-t"),
-    COMMIT_TRANSACTION("commit-t"),
-    ROLLBACK_TRANSACTION("rollback-t"),
-    SET_ISOLATION_LEVEL("set-isolation-level"),
+    INSERT_CUSTOMER("cc"),
+    DELETE_CUSTOMER("dc"),
+    SET_ISOLATION_LEVEL("sil"),
     EXIT("exit");
 
     public final String identifier;

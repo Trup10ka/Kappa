@@ -2,7 +2,6 @@ package com.trup10ka.kappa.cli;
 
 import com.trup10ka.kappa.cli.commands.*;
 import com.trup10ka.kappa.db.DbClient;
-import com.trup10ka.kappa.db.services.CustomerService;
 import com.trup10ka.kappa.db.services.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,8 +9,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.trup10ka.kappa.cli.commands.CommandIdentifier.CREATE_TRANSACTION;
-import static com.trup10ka.kappa.cli.commands.CommandIdentifier.DELETE_TRANSACTION;
+import static com.trup10ka.kappa.cli.commands.CommandIdentifier.INSERT_CUSTOMER;
+import static com.trup10ka.kappa.cli.commands.CommandIdentifier.DELETE_CUSTOMER;
 import static com.trup10ka.kappa.cli.commands.CommandIdentifier.EXIT;
 
 
@@ -102,8 +101,8 @@ public class CliClient
         ServiceManager serviceManager = dbClient.getServiceManager();
 
         commands = Map.of(
-                CREATE_TRANSACTION.identifier, new InsertCustomerCommand(CREATE_TRANSACTION, serviceManager.getCustomerService()),
-                DELETE_TRANSACTION.identifier, new DeleteTransactionCommand(DELETE_TRANSACTION),
+                INSERT_CUSTOMER.identifier, new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
+                DELETE_CUSTOMER.identifier, new DeleteTransactionCommand(DELETE_CUSTOMER),
                 EXIT.identifier, new ExitCommand()
         );
     }
