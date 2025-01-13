@@ -80,7 +80,7 @@ public class InsertCustomerCommand extends Command
     {
         try
         {
-            return CustomerSex.valueOf(sexAsString);
+            return CustomerSex.valueOf(sexAsString.toUpperCase());
         }
         catch (NullPointerException ignored)
         {}
