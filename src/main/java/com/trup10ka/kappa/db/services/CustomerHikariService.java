@@ -8,14 +8,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 
-public class CustomerHikariService implements CustomerService
+public class CustomerHikariService extends DatabaseService implements CustomerService
 {
-
-    private final DbClient dbClient;
 
     public CustomerHikariService(DbClient dbClient)
     {
-        this.dbClient = dbClient;
+        super(dbClient);
     }
 
     @Override
@@ -28,16 +26,17 @@ public class CustomerHikariService implements CustomerService
         try (var connection = dbClient.getDataSource().getConnection())
         {
             PreparedStatement statement = createStatementToInsertCustomer(connection, customer, insertCustomer);
-            int affectedRows = statement.executeUpdate();
+            statement.executeUpdate();
 
-            if (affectedRows == 0) return -1;
+            ResultSet resultSet = statement.getGeneratedKeys();
 
-            return returnCustomerId(statement);
+            return returnCustomerIdFromResultSet(resultSet);
         }
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
         }
+
         return -1;
     }
 
@@ -163,24 +162,24 @@ public class CustomerHikariService implements CustomerService
         return null;
     }
 
-    private int returnCustomerId(PreparedStatement statement) throws SQLException
+    private int returnCustomerIdFromResultSet(ResultSet resultSet)
     {
-        try (ResultSet generatedKeys = statement.getGeneratedKeys())
+        try (resultSet)
         {
-            if (generatedKeys.next())
-            {
-                return generatedKeys.getInt(1);
-            }
-            else
-            {
-                return -1;
-            }
+            if (resultSet.next())
+                return resultSet.getInt(1);
         }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 
     private PreparedStatement createUpdateStatement(Connection connection, String sql, Customer customer, int customerId) throws SQLException
     {
         PreparedStatement statement = connection.prepareStatement(sql);
+
         statement.setString(1, customer.firstName());
         statement.setString(2, customer.lastName());
         statement.setString(3, customer.sex().toString());

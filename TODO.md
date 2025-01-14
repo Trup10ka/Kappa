@@ -9,3 +9,6 @@
 
 ## Bugs
 - [ ] Fix the bug where StringUtil parseByTwoSpaces does not work correctly
+
+## Improvements
+- [ ] Refactor addCustomer method parameters into just Customer object
