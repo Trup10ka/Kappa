@@ -50,6 +50,7 @@ public class HikariDbClient extends DbClient
         }
         catch (SQLException e)
         {
+            System.out.println(e.getMessage());
             throw new InvalidConfigException("Failed to establish a connection. Reason: " + e.getMessage());
         }
     }
@@ -71,8 +72,8 @@ public class HikariDbClient extends DbClient
         {
             System.out.println("Failed to initialize the Hikari pool. Reason: " + e.getMessage() + "\n");
             System.out.println("Possible reasons: \n1. Invalid database credentials\n2. Invalid database host\n3. Invalid database name \n");
-            System.out.println("If none of the above reasons are applicable, please contact the administrator.");
-            System.exit(1);
+            System.out.println("Look into config.conf - If none of the above reasons are applicable, please contact the administrator.");
+            System.exit(0);
         }
     }
 
