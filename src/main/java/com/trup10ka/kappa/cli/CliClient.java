@@ -104,6 +104,7 @@ public class CliClient
                 DELETE_CUSTOMER.identifier, new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
                 DELETE_ORDER.identifier, new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService()),
                 SIMULATE_DIRTY_READ.identifier, new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient),
+                SIMULATE_DIRTY_WRITE.identifier, new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient),
                 EXIT.identifier, new ExitCommand()
         );
     }

@@ -10,24 +10,14 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Scanner;
 
 import static com.trup10ka.kappa.util.ThreadUtil.sleepSeconds;
 
-public class SimulateDirtyReadCommand extends Command
+public class SimulateDirtyReadCommand extends IsolationSecurityTestCommand
 {
-
-    private final CustomerService customerService;
-
-    private final DbClient dbClient;
-
-    private final Scanner scanner = new Scanner(System.in);
-
     public SimulateDirtyReadCommand(@NotNull CommandIdentifier identifier, CustomerService customerService, DbClient dbClient)
     {
-        super(identifier);
-        this.customerService = customerService;
-        this.dbClient = dbClient;
+        super(identifier, customerService, dbClient);
     }
 
     @Override
@@ -134,33 +124,5 @@ public class SimulateDirtyReadCommand extends Command
             );
         }
         return null;
-    }
-
-    private void askToRemoveTemplateCustomer(int customerId)
-    {
-        System.out.println("Removing template user...\n");
-        char input = readUserInputForYorN();
-        if (input == 'y')
-        {
-            boolean isRemoved = customerService.deleteCustomerById(customerId);
-            System.out.println(isRemoved ? "Template user removed" : "Failed to remove template user");
-        }
-        else if (input == 'n')
-        {
-            System.out.println("Template user not removed");
-        }
-    }
-
-    private char readUserInputForYorN()
-    {
-        System.out.println("Remove template user? (y/n)");
-
-        char input = scanner.nextLine().charAt(0);
-        while (input != 'y' && input != 'n')
-        {
-            System.out.println("Enter [y] for yes or [n] for no");
-            input = scanner.nextLine().charAt(0);
-        }
-        return input;
     }
 }
