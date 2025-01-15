@@ -1,10 +1,11 @@
 plugins {
     id("java")
     id("application")
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "com.trup10ka.kappa"
-version = "1.0-SNAPSHOT"
+version = "0.1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -55,6 +56,14 @@ java {
 tasks.jar {
     manifest {
         attributes["Main-Class"] = "com.trup10ka.kappa.Main"
+    }
+}
+
+tasks.shadowJar {
+    manifest {
+        attributes["Description"] = "Console client app for Kappa"
+        archiveBaseName = "Kappa"
+        archiveClassifier = ""
     }
 }
 
