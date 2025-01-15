@@ -101,6 +101,7 @@ public class CliClient
         commands = Map.of(
                 INSERT_CUSTOMER.identifier, new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
                 INSERT_ORDER.identifier, new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
+                DELETE_CUSTOMER.identifier, new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
                 EXIT.identifier, new ExitCommand()
         );
     }
