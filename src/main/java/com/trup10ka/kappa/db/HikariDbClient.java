@@ -80,6 +80,7 @@ public class HikariDbClient extends DbClient
     {
         config.setMaximumPoolSize(8);
         config.setMinimumIdle(2);
+        config.setTransactionIsolation(this.config.dbIsolationLevel().value);
         config.setConnectionTimeout(30000); // 30 seconds
         config.setMaxLifetime(1800000); // 30 minutes
     }
