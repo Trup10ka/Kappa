@@ -49,7 +49,7 @@ public class InsertCustomerCommand extends Command
             return "Invalid credits format";
         }
 
-        int customerId = customerService.addCustomer(customer.firstName(), customer.lastName(), customer.sex(), customer.customerCredits());
+        int customerId = customerService.addCustomer(customer);
 
         if (customerId == -1)
         {

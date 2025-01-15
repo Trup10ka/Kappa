@@ -17,10 +17,8 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     }
 
     @Override
-    public int addCustomer(@NotNull String firstName, @NotNull String lastName, @NotNull CustomerSex sex, int customerCredits)
+    public int addCustomer(@NotNull Customer customer)
     {
-        Customer customer = new Customer(firstName, lastName, sex, customerCredits);
-
         String insertCustomer = "INSERT INTO customer (first_name, last_name, sex, customer_credits) VALUES (?, ?, ?, ?)";
 
         try (var connection = dbClient.getDataSource().getConnection())
