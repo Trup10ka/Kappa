@@ -99,6 +99,13 @@ public class InsertCustomerCommand extends Command
         try
         {
             credits = Integer.parseInt(arg);
+
+            if (credits < 0)
+            {
+                System.out.println(" -c : Credits cannot be negative");
+                return -1;
+            }
+
             return credits;
         }
         catch (NumberFormatException e)
