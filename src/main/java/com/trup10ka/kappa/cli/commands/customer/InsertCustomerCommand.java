@@ -1,7 +1,9 @@
-package com.trup10ka.kappa.cli.commands;
+package com.trup10ka.kappa.cli.commands.customer;
 
 import com.trup10ka.kappa.cli.arguments.CommandArgumentParser;
 import com.trup10ka.kappa.cli.arguments.StrictPairArgumentParser;
+import com.trup10ka.kappa.cli.commands.Command;
+import com.trup10ka.kappa.cli.commands.CommandIdentifier;
 import com.trup10ka.kappa.data.Customer;
 import com.trup10ka.kappa.data.CustomerSex;
 import com.trup10ka.kappa.db.services.CustomerService;

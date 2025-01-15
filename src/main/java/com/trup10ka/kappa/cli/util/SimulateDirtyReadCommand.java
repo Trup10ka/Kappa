@@ -1,5 +1,6 @@
-package com.trup10ka.kappa.cli.commands;
+package com.trup10ka.kappa.cli.util;
 
+import com.trup10ka.kappa.cli.commands.CommandIdentifier;
 import com.trup10ka.kappa.data.Customer;
 import com.trup10ka.kappa.data.CustomerSex;
 import com.trup10ka.kappa.db.DbClient;

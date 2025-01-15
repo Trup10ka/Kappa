@@ -1,5 +1,7 @@
-package com.trup10ka.kappa.cli.commands;
+package com.trup10ka.kappa.cli.util;
 
+import com.trup10ka.kappa.cli.commands.Command;
+import com.trup10ka.kappa.cli.commands.CommandIdentifier;
 import com.trup10ka.kappa.db.DbClient;
 import com.trup10ka.kappa.db.services.CustomerService;
 import org.jetbrains.annotations.NotNull;
