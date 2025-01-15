@@ -45,9 +45,12 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
 
         try (var connection = dbClient.getDataSource().getConnection())
         {
+            connection.setAutoCommit(false);
+
             PreparedStatement statement = connection.prepareStatement(deleteCustomer);
             int affectedRows = statement.executeUpdate();
 
+            connection.commit();
             return affectedRows > 0;
         }
         catch (SQLException e)
@@ -65,10 +68,13 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
 
         try (var connection = dbClient.getDataSource().getConnection())
         {
+            connection.setAutoCommit(false);
+
             PreparedStatement statement = connection.prepareStatement(deleteCustomer);
             statement.setInt(1, customerId);
             int affectedRows = statement.executeUpdate();
 
+            connection.commit();
             return affectedRows > 0;
         }
         catch (SQLException e)
@@ -82,7 +88,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     @Override
     public boolean updateCustomer(int customerId, Customer customer)
     {
-        String update = "UPDATE customer SET first_name = ?, last_name = ?, sex = ?, customer_credits = ? WHERE customer_id = ?";
+        String update = "UPDATE customer SET first_name = ?, last_name = ?, sex = ?, customer_credits = ? WHERE id = ?";
 
         try (var connection = dbClient.getDataSource().getConnection())
         {
@@ -103,7 +109,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     @Nullable
     public Customer getCustomerById(int customerId)
     {
-        String selectCustomer = "SELECT * FROM customer WHERE customer_id = ?";
+        String selectCustomer = "SELECT * FROM customer WHERE id = ?";
 
         try (var connection = dbClient.getDataSource().getConnection())
         {
