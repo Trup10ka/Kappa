@@ -61,6 +61,24 @@ public class InsertCustomerCommand extends Command
         return "Customer inserted successfully, id of the newly inserted customer: " + customerId;
     }
 
+    @Override
+    public String getHelp()
+    {
+        return """
+                ===================================================================================================================================================
+                    cc - Inserts a new customer into the database
+                
+                    Usage: insert-customer -fn <first name> -ln <last name> -s <sex> -c <credits>
+                
+                    Options:
+                        -fn : First name of the customer
+                        -ln : Last name of the customer
+                        -s : Sex - possible values: MALE, FEMALE, OTHER
+                        -c : Credits of the customer - can be float
+                ===================================================================================================================================================
+                """;
+    }
+
     @Nullable
     private Customer parseCustomer(Map<String, String> parsedArguments)
     {

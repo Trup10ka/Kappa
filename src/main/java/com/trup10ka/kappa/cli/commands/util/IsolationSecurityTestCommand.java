@@ -56,4 +56,7 @@ public abstract class IsolationSecurityTestCommand extends Command
         }
         return input;
     }
+
+    @Override
+    public abstract String getHelp();
 }

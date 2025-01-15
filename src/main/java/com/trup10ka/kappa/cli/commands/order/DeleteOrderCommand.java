@@ -38,4 +38,16 @@ public class DeleteOrderCommand extends Command
 
         return success ? "Order deleted successfully" : "Failed to delete order";
     }
+
+    @Override
+    public String getHelp()
+    {
+        return """
+                ===================================================================================================================================================
+                    do - Deletes an order by its ID.
+                
+                    Usage: do <order_id>
+                ===================================================================================================================================================
+                """;
+    }
 }

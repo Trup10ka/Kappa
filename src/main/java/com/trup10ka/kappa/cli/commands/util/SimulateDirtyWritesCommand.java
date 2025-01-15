@@ -118,4 +118,17 @@ public class SimulateDirtyWritesCommand extends IsolationSecurityTestCommand
             System.out.println(e.getMessage());
         }
     }
+
+    @Override
+    @NotNull
+    public String getHelp()
+    {
+        return """
+                ===================================================================================================================================================
+                    sdw - Simulates dirty writes by updating the same row in the database with two different transactions, \
+                
+                    Usage: sdw
+                ===================================================================================================================================================
+                """;
+    }
 }

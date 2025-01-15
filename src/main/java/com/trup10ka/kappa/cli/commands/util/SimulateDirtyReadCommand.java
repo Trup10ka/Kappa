@@ -48,6 +48,18 @@ public class SimulateDirtyReadCommand extends IsolationSecurityTestCommand
         return "Dirty read simulation completed";
     }
 
+    @Override
+    public String getHelp()
+    {
+        return """
+                ===================================================================================================================================================
+                    sdr - Simulate dirty read command
+                
+                    Usage: sdr
+                ===================================================================================================================================================
+                """;
+    }
+
     private void startDirtyRead(int customerId)
     {
         try (Connection writeConnection = dbClient.getDataSource().getConnection())

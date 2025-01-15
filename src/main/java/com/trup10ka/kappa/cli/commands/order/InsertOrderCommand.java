@@ -49,6 +49,27 @@ public class InsertOrderCommand extends Command
         return orderId == -1 ? "Failed to insert order, DB error" : "Order inserted successfully, id of the newly inserted order: " + orderId;
     }
 
+    @Override
+    public String getHelp()
+    {
+        return """
+                ===================================================================================================================================================
+                    co - Create order command
+                
+                    Usage: co -cid <customer_id> -pd <place_date> -p <price> -da <delivery_address> -dz <delivery_zip> -ed <expected_delivery> -n <notes>(optional)
+                
+                    Options:
+                        -cid <customer_id>          Customer id
+                        -pd <place_date>            Place date
+                        -p <price>                  Price
+                        -da <delivery_address>      Delivery address
+                        -dz <delivery_zip>          Delivery zip
+                        -ed <expected_delivery>     Expected delivery date
+                        -n <notes>                  Notes (optional)
+                ===================================================================================================================================================
+                """;
+    }
+
     private Order parseOrder(Map<String, String> parsedArguments)
     {
         int customerId = Integer.parseInt(parsedArguments.get("-cid"));

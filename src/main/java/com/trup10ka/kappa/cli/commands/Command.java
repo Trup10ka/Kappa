@@ -21,4 +21,6 @@ public abstract class Command
     {
         return identifier;
     }
+
+    public abstract String getHelp();
 }

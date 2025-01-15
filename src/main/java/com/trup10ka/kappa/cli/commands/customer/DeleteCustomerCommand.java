@@ -49,6 +49,20 @@ public class DeleteCustomerCommand extends Command
         }
     }
 
+    @Override
+    public String getHelp()
+    {
+        return """
+               ===================================================================================================================================================
+                    dc - Deletes a customer from the database.
+               
+                    Usage: dc -cid <customer_id>
+                    OR
+                    delete-customer -fn <first_name> -ln <last_name>
+               ===================================================================================================================================================
+               """;
+    }
+
     private boolean deleteWithId(Map<String, String> parsedArguments)
     {
         try
