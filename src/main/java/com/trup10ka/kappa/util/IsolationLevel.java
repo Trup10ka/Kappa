@@ -1,6 +1,6 @@
 package com.trup10ka.kappa.util;
 
-public enum IsolationSecurity
+public enum IsolationLevel
 {
     READ_UNCOMMITTED("READ_UNCOMMITTED"),
     READ_COMMITTED("READ_COMMITTED"),
@@ -12,7 +12,7 @@ public enum IsolationSecurity
      */
     public final String value;
 
-    IsolationSecurity(String value)
+    IsolationLevel(String value)
     {
         this.value = value;
     }
