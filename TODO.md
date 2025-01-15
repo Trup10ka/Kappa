@@ -1,6 +1,7 @@
 ## Features
 - [ ] Remove .err. logs and create own logger
 - [ ] Add tests
+- [ ] When parsing dates, make dots possible to use as well as slashes
 - [x] Add interface for argument parsing
 
 ## Project tasks
@@ -11,4 +12,4 @@
 - [ ] Fix the bug where StringUtil parseByTwoSpaces does not work correctly
 
 ## Improvements
-- [ ] Refactor addCustomer method parameters into just Customer object
+- [x] Refactor addCustomer method parameters into just Customer object
