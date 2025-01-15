@@ -61,7 +61,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     @Override
     public boolean deleteCustomerById(int customerId)
     {
-        String deleteCustomer = "DELETE FROM customer WHERE customer_id = ?";
+        String deleteCustomer = "DELETE FROM customer WHERE id = ?";
 
         try (var connection = dbClient.getDataSource().getConnection())
         {
