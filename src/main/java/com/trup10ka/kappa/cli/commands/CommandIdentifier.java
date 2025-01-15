@@ -9,6 +9,8 @@ public enum CommandIdentifier
     INSERT_ORDER("co"),
     DELETE_ORDER("do"),
     DELETE_CUSTOMER("dc"),
+    SIMULATE_DIRTY_READ("sdr"),
+    SIMULATE_DIRTY_WRITE("sdw"),
     SET_ISOLATION_LEVEL("sil"),
     EXIT("exit");
 
