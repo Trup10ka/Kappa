@@ -19,6 +19,7 @@ var hoconParserVersion = "3.8.1"
 /* ====  Utils  ==== */
 var jetbrainsAnnotationsVersion = "24.0.0"
 var jdbcVersion = "8.0.33"
+var slf4jVersion = "2.0.9"
 
 /* ==== JUnit 5 ==== */
 var junitVersion = "5.10.0"
@@ -34,6 +35,7 @@ dependencies {
     /* ====  Utils  ==== */
     implementation("org.jetbrains:annotations:$jetbrainsAnnotationsVersion")
     implementation("mysql:mysql-connector-java:$jdbcVersion")
+    implementation("org.slf4j:slf4j-nop:$slf4jVersion")
 
     /* ==== JUnit 5 ==== */
     testImplementation(platform("org.junit:junit-bom:$junitVersion"))
