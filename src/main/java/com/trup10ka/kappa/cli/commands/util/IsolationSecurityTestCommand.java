@@ -1,4 +1,4 @@
-package com.trup10ka.kappa.cli.util;
+package com.trup10ka.kappa.cli.commands.util;
 
 import com.trup10ka.kappa.cli.commands.Command;
 import com.trup10ka.kappa.cli.commands.CommandIdentifier;
