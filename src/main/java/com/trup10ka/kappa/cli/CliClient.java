@@ -102,6 +102,7 @@ public class CliClient
                 INSERT_CUSTOMER.identifier, new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
                 INSERT_ORDER.identifier, new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
                 DELETE_CUSTOMER.identifier, new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
+                SIMULATE_DIRTY_READ.identifier, new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient),
                 EXIT.identifier, new ExitCommand()
         );
     }
