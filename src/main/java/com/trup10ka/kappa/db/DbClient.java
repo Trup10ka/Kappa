@@ -11,7 +11,7 @@ public abstract class DbClient
 {
     public abstract void init();
 
-    public abstract void testConnection() throws InvalidConfigException;
+    public abstract void initDatabase() throws InvalidConfigException;
 
     public abstract void close();
 

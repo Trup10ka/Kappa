@@ -22,7 +22,7 @@ public class KappaApp
 
         DbClient hikariDbClient = new HikariDbClient(config);
         hikariDbClient.init();
-        testDbClientConnection(hikariDbClient);
+        initDatabase(hikariDbClient);
 
         cliClient = new CliClient(hikariDbClient);
     }
@@ -32,11 +32,11 @@ public class KappaApp
         cliClient.start();
     }
 
-    private void testDbClientConnection(DbClient dbClient)
+    private void initDatabase(DbClient dbClient)
     {
         try
         {
-            dbClient.testConnection();
+            dbClient.initDatabase();
         }
         catch (InvalidConfigException e)
         {

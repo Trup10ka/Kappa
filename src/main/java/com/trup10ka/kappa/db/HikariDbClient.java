@@ -39,7 +39,7 @@ public class HikariDbClient extends DbClient
     }
 
     @Override
-    public void testConnection() throws InvalidConfigException
+    public void initDatabase() throws InvalidConfigException
     {
         try (Connection connection = this.getDataSource().getConnection())
         {
@@ -71,7 +71,7 @@ public class HikariDbClient extends DbClient
         {
             System.out.println("Failed to initialize the Hikari pool. Reason: " + e.getMessage() + "\n");
             System.out.println("Possible reasons: \n1. Invalid database credentials\n2. Invalid database host\n3. Invalid database name \n");
-            System.out.println("If none of the above reasons are applicable, please check the logs for more information and contact the administrator.");
+            System.out.println("If none of the above reasons are applicable, please contact the administrator.");
             System.exit(1);
         }
     }
