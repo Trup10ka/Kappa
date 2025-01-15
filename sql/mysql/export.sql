@@ -47,7 +47,7 @@ CREATE TABLE product_to_order (
 ALTER TABLE `order`
     ADD CONSTRAINT order_customer_FK FOREIGN KEY (customer_id)
         REFERENCES customer (id)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
 ALTER TABLE product
@@ -59,11 +59,11 @@ ALTER TABLE product
 ALTER TABLE product_to_order
     ADD CONSTRAINT product_to_order_order_FK FOREIGN KEY (order_id)
         REFERENCES `order` (id)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
 ALTER TABLE product_to_order
     ADD CONSTRAINT product_to_order_product_FK FOREIGN KEY (product_id)
         REFERENCES product (id)
-        ON DELETE NO ACTION
+        ON DELETE CASCADE
         ON UPDATE NO ACTION;
