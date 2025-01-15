@@ -52,6 +52,8 @@ public class SimulateDirtyReadCommand extends Command
 
         startDirtyRead(customerId);
 
+        askToRemoveTemplateCustomer(customerId);
+
         return "Dirty read simulation completed";
     }
 
@@ -132,5 +134,33 @@ public class SimulateDirtyReadCommand extends Command
             );
         }
         return null;
+    }
+
+    private void askToRemoveTemplateCustomer(int customerId)
+    {
+        System.out.println("Removing template user...\n");
+        char input = readUserInputForYorN();
+        if (input == 'y')
+        {
+            boolean isRemoved = customerService.deleteCustomerById(customerId);
+            System.out.println(isRemoved ? "Template user removed" : "Failed to remove template user");
+        }
+        else if (input == 'n')
+        {
+            System.out.println("Template user not removed");
+        }
+    }
+
+    private char readUserInputForYorN()
+    {
+        System.out.println("Remove template user? (y/n)");
+
+        char input = scanner.nextLine().charAt(0);
+        while (input != 'y' && input != 'n')
+        {
+            System.out.println("Enter [y] for yes or [n] for no");
+            input = scanner.nextLine().charAt(0);
+        }
+        return input;
     }
 }
