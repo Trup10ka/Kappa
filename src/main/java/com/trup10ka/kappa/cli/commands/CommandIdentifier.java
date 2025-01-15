@@ -6,6 +6,7 @@ public enum CommandIdentifier
 {
 
     INSERT_CUSTOMER("cc"),
+    INSERT_ORDER("co"),
     DELETE_CUSTOMER("dc"),
     SET_ISOLATION_LEVEL("sil"),
     EXIT("exit");
