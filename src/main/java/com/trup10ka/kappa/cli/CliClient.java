@@ -9,9 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.trup10ka.kappa.cli.commands.CommandIdentifier.INSERT_CUSTOMER;
-import static com.trup10ka.kappa.cli.commands.CommandIdentifier.DELETE_CUSTOMER;
-import static com.trup10ka.kappa.cli.commands.CommandIdentifier.EXIT;
+import static com.trup10ka.kappa.cli.commands.CommandIdentifier.*;
 
 
 public class CliClient
@@ -102,7 +100,7 @@ public class CliClient
 
         commands = Map.of(
                 INSERT_CUSTOMER.identifier, new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
-                DELETE_CUSTOMER.identifier, new DeleteTransactionCommand(DELETE_CUSTOMER),
+                INSERT_ORDER.identifier, new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
                 EXIT.identifier, new ExitCommand()
         );
     }
