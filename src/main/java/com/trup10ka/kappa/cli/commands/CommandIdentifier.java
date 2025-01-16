@@ -5,12 +5,23 @@ import org.jetbrains.annotations.Nullable;
 public enum CommandIdentifier
 {
 
+    /* --- Create commands --- */
     INSERT_CUSTOMER("cc"),
     INSERT_ORDER("co"),
+
+    /* --- Delete commands --- */
     DELETE_ORDER("do"),
     DELETE_CUSTOMER("dc"),
+
+    /* --- Simulation commands --- */
     SIMULATE_DIRTY_READ("sdr"),
     SIMULATE_DIRTY_WRITE("sdw"),
+
+    /* --- Export/Import commands --- */
+    EXPORT_MOST_ORDERED_PRODUCT("ep"),
+    IMPORT_CUSTOMERS("ic"),
+
+    /* --- Util commands --- */
     SET_ISOLATION_LEVEL("sil"),
     HELP("help"),
     EXIT("exit");
