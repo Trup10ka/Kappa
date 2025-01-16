@@ -29,7 +29,7 @@ public class FileUtil
     {
         if (!parentDirectory.exists())
         {
-            return parentDirectory.getParentFile().mkdirs();
+            return parentDirectory.mkdirs();
         }
         return false;
     }
