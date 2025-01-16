@@ -5,12 +5,14 @@ import com.trup10ka.kappa.cli.commands.customer.DeleteCustomerCommand;
 import com.trup10ka.kappa.cli.commands.customer.InsertCustomerCommand;
 import com.trup10ka.kappa.cli.commands.order.DeleteOrderCommand;
 import com.trup10ka.kappa.cli.commands.order.InsertOrderCommand;
+import com.trup10ka.kappa.cli.commands.product.ExportMostOrderedProductCommand;
 import com.trup10ka.kappa.cli.commands.util.ExitCommand;
 import com.trup10ka.kappa.cli.commands.util.HelpCommand;
 import com.trup10ka.kappa.cli.commands.util.SimulateDirtyReadCommand;
 import com.trup10ka.kappa.cli.commands.util.SimulateDirtyWritesCommand;
 import com.trup10ka.kappa.db.DbClient;
 import com.trup10ka.kappa.db.services.ServiceManager;
+import com.trup10ka.kappa.file.exp.CSVFileExportHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -111,12 +113,28 @@ public class CliClient
         HelpCommand helpCommand = new HelpCommand(HELP);
 
         commands = Map.of(
-                INSERT_CUSTOMER.identifier, new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
-                INSERT_ORDER.identifier, new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
-                DELETE_CUSTOMER.identifier, new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
-                DELETE_ORDER.identifier, new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService()),
-                SIMULATE_DIRTY_READ.identifier, new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient),
-                SIMULATE_DIRTY_WRITE.identifier, new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient),
+                INSERT_CUSTOMER.identifier,
+                new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
+
+                INSERT_ORDER.identifier,
+                new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
+
+                DELETE_CUSTOMER.identifier,
+                new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
+
+                DELETE_ORDER.identifier,
+                new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService()),
+
+                SIMULATE_DIRTY_READ.identifier,
+                new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient),
+
+                SIMULATE_DIRTY_WRITE.identifier,
+                new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient),
+
+                EXPORT_MOST_ORDERED_PRODUCT.identifier,
+                new ExportMostOrderedProductCommand
+                        (EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv")),
+
                 HELP.identifier, helpCommand,
                 EXIT.identifier, new ExitCommand()
         );

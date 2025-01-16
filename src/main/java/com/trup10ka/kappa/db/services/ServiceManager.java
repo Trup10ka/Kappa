@@ -12,6 +12,8 @@ public class ServiceManager
 
     private final ProductService productService;
 
+    private final AggregatedDataService aggregatedDataService;
+
     public ServiceManager(DbClient dbClient)
     {
         this.dbClient = dbClient;
@@ -19,6 +21,7 @@ public class ServiceManager
         customerService = new CustomerHikariService(dbClient);
         orderService = new OrderHikariService(dbClient);
         productService = new ProductHikariService(dbClient);
+        aggregatedDataService = new AggregatedDataHikariService(dbClient);
     }
 
     public CustomerService getCustomerService()
@@ -34,5 +37,10 @@ public class ServiceManager
     public ProductService getProductService()
     {
         return productService;
+    }
+
+    public AggregatedDataService getAggregatedDataService()
+    {
+        return aggregatedDataService;
     }
 }
