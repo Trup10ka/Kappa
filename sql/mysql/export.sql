@@ -69,7 +69,7 @@ ALTER TABLE product_to_order
         ON UPDATE NO ACTION;
 
 
-CREATE VIEW most_ordered_items AS
+CREATE VIEW most_ordered_products AS
 SELECT p.name AS product_name, SUM(pto.number_of_items) AS total_ordered
 FROM product_to_order pto
 JOIN product p ON pto.product_id = p.id
