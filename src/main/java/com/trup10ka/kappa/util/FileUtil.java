@@ -1,5 +1,6 @@
 package com.trup10ka.kappa.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,15 @@ public class FileUtil
         System.out.println("Template config generated, please fill in the values in config.conf, program will now exit");
 
         System.exit(0);
+    }
+
+    public static boolean createParentDirectoriesIfNotExists(File parentDirectory)
+    {
+        if (!parentDirectory.exists())
+        {
+            return parentDirectory.getParentFile().mkdirs();
+        }
+        return false;
     }
 
     private static void copyResourceToFile(String filePath, String defaultFileName)
