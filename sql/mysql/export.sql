@@ -7,16 +7,10 @@ CREATE TABLE customer (
                           PRIMARY KEY (id)
 );
 
-CREATE TABLE `order` (
-                         id INT NOT NULL AUTO_INCREMENT,
-                         customer_id INT NOT NULL,
-                         place_date DATE NOT NULL,
-                         price FLOAT NOT NULL CHECK (price >= 0),
-                         delivery_address VARCHAR(400) NOT NULL,
-                         delivery_zip CHAR(5) NOT NULL, -- Assuming a fixed zip code length of 5 characters
-                         expected_delivery DATETIME NOT NULL,
-                         order_note TEXT,
-                         PRIMARY KEY (id)
+CREATE TABLE product_category (
+                                  id INT NOT NULL AUTO_INCREMENT,
+                                  category_name VARCHAR(80) NOT NULL,
+                                  PRIMARY KEY (id)
 );
 
 CREATE TABLE product (
@@ -29,14 +23,20 @@ CREATE TABLE product (
                          PRIMARY KEY (id)
 );
 
-CREATE TABLE product_category (
-                                  id INT NOT NULL AUTO_INCREMENT,
-                                  category_name VARCHAR(80) NOT NULL,
-                                  PRIMARY KEY (id)
+CREATE TABLE `order` (
+                         id INT NOT NULL AUTO_INCREMENT,
+                         customer_id INT NOT NULL,
+                         place_date DATE NOT NULL,
+                         price FLOAT NOT NULL CHECK (price >= 0),
+                         delivery_address VARCHAR(400) NOT NULL,
+                         delivery_zip CHAR(5) NOT NULL, -- Assuming a fixed zip code length of 5 characters
+                         expected_delivery DATETIME NOT NULL,
+                         order_note TEXT,
+                         PRIMARY KEY (id)
 );
 
 CREATE TABLE product_to_order (
-                                  id INT NOT NULL,
+                                  id INT NOT NULL AUTO_INCREMENT,
                                   product_id INT NOT NULL,
                                   order_id INT NOT NULL,
                                   number_of_items INT NOT NULL CHECK (number_of_items >= 0),
@@ -67,3 +67,11 @@ ALTER TABLE product_to_order
         REFERENCES product (id)
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
+
+
+CREATE VIEW most_ordered_items AS
+SELECT p.name AS product_name, SUM(pto.number_of_items) AS total_ordered
+FROM product_to_order pto
+JOIN product p ON pto.product_id = p.id
+GROUP BY p.name
+    ORDER BY total_ordered DESC;
