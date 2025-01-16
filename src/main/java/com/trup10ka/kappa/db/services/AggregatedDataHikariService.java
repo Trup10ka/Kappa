@@ -1,6 +1,7 @@
 package com.trup10ka.kappa.db.services;
 
 
+import com.trup10ka.kappa.data.Customer;
 import com.trup10ka.kappa.data.export.MostOrderedProduct;
 import com.trup10ka.kappa.db.DbClient;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +40,31 @@ public class AggregatedDataHikariService extends DatabaseService implements Aggr
         }
     }
 
+    @Override
+    public int importCustomers(List<Customer> customers)
+    {
+        try (Connection connection = dbClient.getDataSource().getConnection())
+        {
+            String insertBatch = generateInsertBatch(customers.size());
+            PreparedStatement preparedStatement = connection.prepareStatement(insertBatch);
+
+            for (Customer customer : customers)
+            {
+                preparedStatement.setString(1, customer.firstName());
+                preparedStatement.setString(2, customer.lastName());
+                preparedStatement.setString(3, String.valueOf(customer.sex()));
+                preparedStatement.setInt(4, customer.customerCredits());
+                preparedStatement.addBatch();
+            }
+            return preparedStatement.executeBatch().length;
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+
     @NotNull
     private List<MostOrderedProduct> getMostOrderedProducts(ResultSet result) throws SQLException
     {
@@ -51,5 +77,20 @@ public class AggregatedDataHikariService extends DatabaseService implements Aggr
             ));
         }
         return mostOrderedProducts;
+    }
+
+    @NotNull
+    private String generateInsertBatch(int rows)
+    {
+        StringBuilder insertBatch = new StringBuilder("INSERT INTO " + "customer" + " VALUES ");
+        for (int i = 0; i < rows; i++)
+        {
+            insertBatch.append("(");
+            insertBatch.append("?, ".repeat(4));
+            insertBatch.delete(insertBatch.length() - 2, insertBatch.length());
+            insertBatch.append("), ");
+        }
+        insertBatch.delete(insertBatch.length() - 2, insertBatch.length());
+        return insertBatch.toString();
     }
 }
