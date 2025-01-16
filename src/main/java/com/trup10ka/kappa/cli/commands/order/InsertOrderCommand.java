@@ -25,6 +25,7 @@ public class InsertOrderCommand extends Command
     {
         super(identifier);
         this.orderService = orderService;
+        setShortDescription("Creates a new order");
     }
 
     @Override

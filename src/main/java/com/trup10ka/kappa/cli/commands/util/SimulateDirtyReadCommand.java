@@ -19,6 +19,7 @@ public class SimulateDirtyReadCommand extends IsolationSecurityTestCommand
     public SimulateDirtyReadCommand(@NotNull CommandIdentifier identifier, CustomerService customerService, DbClient dbClient)
     {
         super(identifier, customerService, dbClient);
+        setShortDescription("Simulate dirty read command");
     }
 
     @Override

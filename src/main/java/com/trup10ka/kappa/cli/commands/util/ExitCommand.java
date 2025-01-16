@@ -10,6 +10,7 @@ public class ExitCommand extends Command
     public ExitCommand()
     {
         super(CommandIdentifier.EXIT);
+        setShortDescription("Exits the application");
     }
 
     @Override

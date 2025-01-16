@@ -24,6 +24,7 @@ public class InsertCustomerCommand extends Command
     {
         super(identifier);
         this.customerService = customerService;
+        setShortDescription("Inserts a new customer into the database");
     }
 
     @Override

@@ -8,6 +8,8 @@ public abstract class Command
     @NotNull
     private final CommandIdentifier identifier;
 
+    private String shortDescription;
+
     public Command(@NotNull CommandIdentifier identifier)
     {
         this.identifier = identifier;
@@ -20,6 +22,17 @@ public abstract class Command
     public CommandIdentifier getIdentifier()
     {
         return identifier;
+    }
+
+    protected void setShortDescription(String shortDescription)
+    {
+        this.shortDescription = shortDescription;
+    }
+
+    @NotNull
+    public String getShortDescription()
+    {
+        return shortDescription;
     }
 
     public abstract String getHelp();

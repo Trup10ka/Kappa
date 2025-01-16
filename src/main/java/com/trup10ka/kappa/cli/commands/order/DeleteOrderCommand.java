@@ -15,6 +15,7 @@ public class DeleteOrderCommand extends Command
     {
         super(identifier);
         this.orderService = orderService;
+        setShortDescription("Deletes an order by its ID");
     }
 
     @Override

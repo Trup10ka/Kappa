@@ -16,6 +16,7 @@ public class HelpCommand extends Command
     public HelpCommand(CommandIdentifier commandIdentifier)
     {
         super(commandIdentifier);
+        setShortDescription("Prints help for all commands or a specific command");
     }
 
     public void initHelpCommand(@NotNull List<Command> allCommands)
@@ -58,7 +59,11 @@ public class HelpCommand extends Command
         help.append("Available commands:\n");
         for (Command command : allCommands)
         {
-            help.append("\t- ").append(command.getIdentifier().identifier).append("\n");
+            help.append("\t- ")
+                    .append(command.getIdentifier().identifier)
+                    .append(" : ")
+                    .append(command.getShortDescription())
+                    .append("\n");
         }
         return help.toString();
     }

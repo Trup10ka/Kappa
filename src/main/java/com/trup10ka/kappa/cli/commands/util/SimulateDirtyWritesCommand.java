@@ -21,6 +21,7 @@ public class SimulateDirtyWritesCommand extends IsolationSecurityTestCommand
     public SimulateDirtyWritesCommand(@NotNull CommandIdentifier identifier, CustomerService customerService, DbClient dbClient)
     {
         super(identifier, customerService, dbClient);
+        setShortDescription("Simulates dirty writes by updating the same row in the database with two different transactions");
     }
 
     @Override

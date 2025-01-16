@@ -21,6 +21,7 @@ public class ExportMostOrderedProductCommand extends Command
         super(identifier);
         this.aggregatedDataService = aggregatedDataService;
         this.exportHandler = exportHandler;
+        setShortDescription("Export Most Ordered Products");
     }
 
     @Override
@@ -45,6 +46,12 @@ public class ExportMostOrderedProductCommand extends Command
     @Override
     public String getHelp()
     {
-        return "";
+        return """
+                ========================================================================================================
+                ep - Export Most Ordered Products
+                
+                Usage: ep
+                ========================================================================================================
+                """;
     }
 }

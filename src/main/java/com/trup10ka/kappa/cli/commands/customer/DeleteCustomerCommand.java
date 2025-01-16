@@ -21,6 +21,7 @@ public class DeleteCustomerCommand extends Command
     {
         super(identifier);
         this.customerService = customerService;
+        setShortDescription("Deletes a customer from the database");
     }
 
     @Override
