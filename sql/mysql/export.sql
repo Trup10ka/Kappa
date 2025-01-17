@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS kappa;
+
+USE kappa;
+
 CREATE TABLE customer (
                           id INT NOT NULL AUTO_INCREMENT,
                           first_name VARCHAR(50) NOT NULL,
