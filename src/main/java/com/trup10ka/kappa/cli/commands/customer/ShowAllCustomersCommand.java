@@ -3,6 +3,7 @@ package com.trup10ka.kappa.cli.commands.customer;
 import com.trup10ka.kappa.cli.commands.Command;
 import com.trup10ka.kappa.cli.commands.CommandIdentifier;
 import com.trup10ka.kappa.data.Customer;
+import com.trup10ka.kappa.data.FatCustomer;
 import com.trup10ka.kappa.db.services.CustomerService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,10 +31,10 @@ public class ShowAllCustomersCommand extends Command
             return "";
         }
 
-        List<Customer> customers = customerService.getAllCustomers();
+        List<FatCustomer> customers = customerService.getAllCustomers();
 
         return customers.stream()
-                .map(Customer::toString)
+                .map(FatCustomer::toString)
                 .reduce("", (acc, customer) -> acc + customer + "\n");
     }
 

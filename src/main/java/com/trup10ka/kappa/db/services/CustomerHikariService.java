@@ -2,6 +2,7 @@ package com.trup10ka.kappa.db.services;
 
 import com.trup10ka.kappa.data.Customer;
 import com.trup10ka.kappa.data.CustomerSex;
+import com.trup10ka.kappa.data.FatCustomer;
 import com.trup10ka.kappa.db.DbClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -159,7 +160,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     }
 
     @Override
-    public List<Customer> getAllCustomers()
+    public List<FatCustomer> getAllCustomers()
     {
         String selectAllCustomers = "SELECT * FROM customer";
 
@@ -177,14 +178,14 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
         }
     }
 
-    private List<Customer> createCustomerListFromResultSet(ResultSet resultSet)
+    private List<FatCustomer> createCustomerListFromResultSet(ResultSet resultSet)
     {
         try (resultSet)
         {
-            List<Customer> customers = new java.util.ArrayList<>();
+            List<FatCustomer> customers = new java.util.ArrayList<>();
             while (resultSet.next())
             {
-                customers.add(parseCustomerFromResultSet(resultSet));
+                customers.add(parseFatCustomerFromResultSet(resultSet));
             }
             return customers;
         }
@@ -198,6 +199,16 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
     private Customer parseCustomerFromResultSet(ResultSet resultSet) throws SQLException
     {
         return new Customer(
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                CustomerSex.valueOf(resultSet.getString("sex")),
+                resultSet.getInt("customer_credits"));
+    }
+
+    private FatCustomer parseFatCustomerFromResultSet(ResultSet resultSet) throws SQLException
+    {
+        return new FatCustomer(
+                resultSet.getInt("id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 CustomerSex.valueOf(resultSet.getString("sex")),

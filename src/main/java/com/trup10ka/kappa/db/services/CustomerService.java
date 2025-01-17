@@ -1,6 +1,7 @@
 package com.trup10ka.kappa.db.services;
 
 import com.trup10ka.kappa.data.Customer;
+import com.trup10ka.kappa.data.FatCustomer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,5 +23,5 @@ public interface CustomerService
     @Nullable
     Customer getCustomerByName(@NotNull String firstName, @NotNull String lastName);
 
-    List<Customer> getAllCustomers();
+    List<FatCustomer> getAllCustomers();
 }
