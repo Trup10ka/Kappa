@@ -129,38 +129,38 @@ public class CliClient
                 ),
 
                 entry(
-                INSERT_ORDER.identifier,
+                        INSERT_ORDER.identifier,
                         new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService())
                 ),
 
                 entry(
-                DELETE_CUSTOMER.identifier,
+                        DELETE_CUSTOMER.identifier,
                         new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService())
                 ),
 
                 entry(
-                DELETE_ORDER.identifier,
+                        DELETE_ORDER.identifier,
                         new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService())
                 ),
 
                 entry(
-                SIMULATE_DIRTY_READ.identifier,
+                        SIMULATE_DIRTY_READ.identifier,
                         new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient)
                 ),
 
                 entry(
-                SIMULATE_DIRTY_WRITE.identifier,
+                        SIMULATE_DIRTY_WRITE.identifier,
                         new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient)
                 ),
 
                 entry(
-                EXPORT_MOST_ORDERED_PRODUCT.identifier,
-                new ExportMostOrderedProductCommand(
+                        EXPORT_MOST_ORDERED_PRODUCT.identifier,
+                        new ExportMostOrderedProductCommand(
                                 EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv"))
                 ),
 
                 entry(
-                IMPORT_CUSTOMERS.identifier,
+                        IMPORT_CUSTOMERS.identifier,
                         new ImportCustomersCommand(IMPORT_CUSTOMERS, serviceManager.getAggregatedDataService())
                 ),
 
@@ -169,7 +169,7 @@ public class CliClient
                 ),
 
                 entry(
-                EXIT.identifier, new ExitCommand()
+                        EXIT.identifier, new ExitCommand()
                 )
         );
 
