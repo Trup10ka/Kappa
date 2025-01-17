@@ -2,7 +2,6 @@ package com.trup10ka.kappa.util;
 
 public enum FileFormat
 {
-    JSON("json"),
     CSV("csv");
 
     public final String identifier;
@@ -16,7 +15,6 @@ public enum FileFormat
     {
         return switch (format.toLowerCase())
         {
-            case "json" -> JSON;
             case "csv" -> CSV;
             default -> throw new IllegalArgumentException("Unknown format: " + format);
         };
