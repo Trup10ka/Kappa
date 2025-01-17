@@ -36,6 +36,13 @@ public class CSVFileImportHandler implements ImportHandler
         return customers;
     }
 
+    @Override
+    public List<String> importProducts(String filePath)
+    {
+
+        return new ArrayList<>();
+    }
+
     private void parseLine(List<Customer> customers, String line)
     {
         String[] parts = line.split(",");
@@ -70,11 +77,5 @@ public class CSVFileImportHandler implements ImportHandler
 
         else
             System.err.println("Invalid sex on line: " + line);
-    }
-
-    @Override
-    public List<Product> importProducts(String filePath)
-    {
-        return new ArrayList<>();
     }
 }

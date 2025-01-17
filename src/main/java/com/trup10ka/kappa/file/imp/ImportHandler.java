@@ -12,5 +12,5 @@ public interface ImportHandler
 
     List<Customer> importCustomers(String filePath);
 
-    List<Product> importProducts(String filePath);
+    List<String> importProducts(String filePath);
 }
