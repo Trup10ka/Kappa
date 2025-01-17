@@ -27,7 +27,7 @@ public class FileUtil
 
     public static boolean createParentDirectoriesIfNotExists(File parentDirectory)
     {
-        if (!parentDirectory.exists())
+        if (!parentDirectory.getParentFile().exists())
         {
             return parentDirectory.mkdirs();
         }
