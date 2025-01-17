@@ -50,3 +50,19 @@ help
 help [command]
 ```
 **prints out the description of the command**
+
+## Third-party libraries
+
+This project uses the following third-party libraries:
+
+- [JDBC](https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/)
+- [HikariCP](https://github.com/brettwooldridge/HikariCP)
+- [NightConfig](https://github.com/TheElectronWill/night-config)
+
+## License
+
+This project is under the MIT license. See the [LICENSE](https://github.com/Trup10ka/Kappa/blob/main/LICENCE)
+
+## Issues
+
+If you find any issues, please report them!
