@@ -5,6 +5,9 @@ import org.jetbrains.annotations.Nullable;
 public enum CommandIdentifier
 {
 
+    /* --- Show commands --- */
+    SHOW_ALL_CUSTOMERS_ORDERS("sao"),
+
     /* --- Create commands --- */
     INSERT_CUSTOMER("cc"),
     INSERT_ORDER("co"),
