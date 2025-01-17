@@ -13,6 +13,8 @@ import java.sql.Date;
 import java.util.Map;
 
 import static com.trup10ka.kappa.util.DateUtil.parseDate;
+import static com.trup10ka.kappa.util.TypeUtil.tryParseFloatField;
+import static com.trup10ka.kappa.util.TypeUtil.tryParseIntField;
 
 public class InsertOrderCommand extends Command
 {
@@ -73,30 +75,17 @@ public class InsertOrderCommand extends Command
 
     private Order parseOrder(Map<String, String> parsedArguments)
     {
-        int customerId = tryParseInt(parsedArguments.get("-cid"));
+        int customerId = tryParseIntField(parsedArguments.get("-cid"), "-cid");
         String placeDate = parsedArguments.get("-pd");
-        float price = Float.parseFloat(parsedArguments.get("-p"));
+        float price = tryParseFloatField(parsedArguments.get("-p"), "-p");
         String deliveryAddress = parsedArguments.get("-da");
         String deliveryZip = parsedArguments.get("-dz");
         String notes = parsedArguments.get("-n");
 
         Date expectedDelivery = parseDate(parsedArguments.get("-ed"));
-        if (expectedDelivery == null || customerId == -1)
+        if (expectedDelivery == null || customerId == -1 || price == -1)
             return null;
 
         return new Order(customerId, placeDate, price, deliveryAddress, deliveryZip, expectedDelivery, notes);
-    }
-
-    private int tryParseInt(String value)
-    {
-        try
-        {
-            return Integer.parseInt(value);
-        }
-        catch (NumberFormatException e)
-        {
-            System.out.println("Customer ID is not of type int");
-            return -1;
-        }
     }
 }
