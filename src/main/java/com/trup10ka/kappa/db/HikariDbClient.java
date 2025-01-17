@@ -49,7 +49,9 @@ public class HikariDbClient extends DbClient
         try (HikariDataSource hikariDataSource = new HikariDataSource(config);
                 Connection connection = hikariDataSource.getConnection())
         {
+            connection.setAutoCommit(false);
             initDbScheme(connection);
+            connection.commit();
         }
         catch (SQLException e)
         {
