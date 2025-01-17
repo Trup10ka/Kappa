@@ -65,6 +65,28 @@ public class AggregatedDataHikariService extends DatabaseService implements Aggr
         }
     }
 
+    @Override
+    public int importProductsCategories(List<String> productsCategories)
+    {
+        try (Connection connection = dbClient.getDataSource().getConnection())
+        {
+            String insertBatch = "INSERT INTO product_category (category_name) VALUES (?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertBatch);
+
+            for (String category : productsCategories)
+            {
+                preparedStatement.setString(1, category);
+                preparedStatement.addBatch();
+            }
+            return preparedStatement.executeBatch().length;
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     @NotNull
     private List<MostOrderedProduct> getMostOrderedProducts(ResultSet result) throws SQLException
     {

@@ -12,4 +12,6 @@ public interface AggregatedDataService
     List<MostOrderedProduct> exportMostOrderedItems();
 
     int importCustomers(List<Customer> customers);
+
+    int importProductsCategories(List<String> productsCategories);
 }
