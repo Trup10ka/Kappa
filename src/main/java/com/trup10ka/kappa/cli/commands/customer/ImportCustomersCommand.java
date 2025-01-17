@@ -2,26 +2,22 @@ package com.trup10ka.kappa.cli.commands.customer;
 
 import com.trup10ka.kappa.cli.arguments.CommandArgumentParser;
 import com.trup10ka.kappa.cli.arguments.StrictPairArgumentParser;
-import com.trup10ka.kappa.cli.commands.Command;
 import com.trup10ka.kappa.cli.commands.CommandIdentifier;
+import com.trup10ka.kappa.cli.commands.util.ImportCommand;
 import com.trup10ka.kappa.data.Customer;
+import com.trup10ka.kappa.data.util.Tuple;
 import com.trup10ka.kappa.db.services.AggregatedDataService;
-import com.trup10ka.kappa.file.imp.CSVFileImportHandler;
 import com.trup10ka.kappa.file.imp.ImportHandler;
-import com.trup10ka.kappa.file.imp.JSONFileImportHandler;
 import com.trup10ka.kappa.util.FileFormat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
-public class ImportCustomersCommand extends Command
+public class ImportCustomersCommand extends ImportCommand
 {
 
     private final AggregatedDataService aggregatedDataService;
-
-    private final CommandArgumentParser argumentParser = new StrictPairArgumentParser(new String[] { "-p", "-f" } );
 
     public ImportCustomersCommand(@NotNull CommandIdentifier identifier, @NotNull AggregatedDataService aggregatedDataService)
     {
@@ -33,30 +29,19 @@ public class ImportCustomersCommand extends Command
     @Override
     public @NotNull String execute(@Nullable String args)
     {
-        if (args == null || args.isEmpty())
-            return "Empty arguments. Please provide a file path and a format.";
+        Tuple<String, FileFormat> pathAndFormat = parseArguments(args);
 
+        if (pathAndFormat == null)
+            return "No customers imported";
 
-        Map<String, String> parsedArguments = argumentParser.parse(args);
-        if (!areMandatoryArgumentsPresent(parsedArguments))
-            return "Missing mandatory arguments, cannot import";
-
-
-        String filePath = parsedArguments.get("-p");
-        FileFormat format = parseFormat(parsedArguments.get("-f"));
-
-        if (format == null)
-            return "\n";
-
-        ImportHandler importHandler = getImportHandlerByFormat(format);
-        List<Customer> importedCustomers = importHandler.importCustomers(filePath);
+        ImportHandler importHandler = getImportHandlerByFormat(pathAndFormat.second());
+        List<Customer> importedCustomers = importHandler.importCustomers(pathAndFormat.first());
 
         if (importedCustomers.isEmpty())
             return "No customers imported";
 
-
-        aggregatedDataService.importCustomers(importedCustomers);
-        return "Imported " + importedCustomers.size() + " customers";
+        int result = aggregatedDataService.importCustomers(importedCustomers);
+        return "Imported " + result + " customers";
     }
 
     @Override
@@ -74,43 +59,5 @@ public class ImportCustomersCommand extends Command
                     -f      Format of the file CSV or JSON)
                 ========================================================================================================
                 """;
-    }
-
-    private ImportHandler getImportHandlerByFormat(FileFormat format)
-    {
-        return switch (format)
-        {
-            case CSV -> new CSVFileImportHandler();
-            case JSON -> new JSONFileImportHandler();
-        };
-    }
-
-    private FileFormat parseFormat(String format)
-    {
-        try
-        {
-            return FileFormat.fromString(format);
-        }
-        catch (IllegalArgumentException e)
-        {
-            System.out.println("Invalid format: " + format);
-            return null;
-        }
-    }
-
-    private boolean areMandatoryArgumentsPresent(Map<String, String> parsedArguments)
-    {
-        if (!parsedArguments.containsKey("-p"))
-        {
-            System.out.println("Missing path argument");
-            return false;
-        }
-
-        if (!parsedArguments.containsKey("-f"))
-        {
-            System.out.println("Missing format argument");
-            return false;
-        }
-        return true;
     }
 }
