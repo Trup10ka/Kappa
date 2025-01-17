@@ -14,7 +14,7 @@ public enum FileFormat
 
     public static FileFormat fromString(String format)
     {
-        return switch (format)
+        return switch (format.toLowerCase())
         {
             case "json" -> JSON;
             case "csv" -> CSV;

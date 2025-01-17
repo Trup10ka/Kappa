@@ -2,6 +2,7 @@ package com.trup10ka.kappa.cli;
 
 import com.trup10ka.kappa.cli.commands.*;
 import com.trup10ka.kappa.cli.commands.customer.DeleteCustomerCommand;
+import com.trup10ka.kappa.cli.commands.customer.ImportCustomersCommand;
 import com.trup10ka.kappa.cli.commands.customer.InsertCustomerCommand;
 import com.trup10ka.kappa.cli.commands.order.DeleteOrderCommand;
 import com.trup10ka.kappa.cli.commands.order.InsertOrderCommand;
@@ -16,7 +17,7 @@ import com.trup10ka.kappa.file.exp.CSVFileExportHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -132,8 +133,11 @@ public class CliClient
                 new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient),
 
                 EXPORT_MOST_ORDERED_PRODUCT.identifier,
-                new ExportMostOrderedProductCommand
-                        (EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv")),
+                new ExportMostOrderedProductCommand(
+                        EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv")),
+
+                IMPORT_CUSTOMERS.identifier,
+                new ImportCustomersCommand(IMPORT_CUSTOMERS, serviceManager.getAggregatedDataService()),
 
                 HELP.identifier, helpCommand,
                 EXIT.identifier, new ExitCommand()

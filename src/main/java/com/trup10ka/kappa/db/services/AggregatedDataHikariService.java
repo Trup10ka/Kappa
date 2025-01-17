@@ -45,7 +45,7 @@ public class AggregatedDataHikariService extends DatabaseService implements Aggr
     {
         try (Connection connection = dbClient.getDataSource().getConnection())
         {
-            String insertBatch = generateInsertBatch(customers.size());
+            String insertBatch = "INSERT INTO customer (first_name, last_name, sex, customer_credits) VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertBatch);
 
             for (Customer customer : customers)
@@ -77,20 +77,5 @@ public class AggregatedDataHikariService extends DatabaseService implements Aggr
             ));
         }
         return mostOrderedProducts;
-    }
-
-    @NotNull
-    private String generateInsertBatch(int rows)
-    {
-        StringBuilder insertBatch = new StringBuilder("INSERT INTO " + "customer" + " VALUES ");
-        for (int i = 0; i < rows; i++)
-        {
-            insertBatch.append("(");
-            insertBatch.append("?, ".repeat(4));
-            insertBatch.delete(insertBatch.length() - 2, insertBatch.length());
-            insertBatch.append("), ");
-        }
-        insertBatch.delete(insertBatch.length() - 2, insertBatch.length());
-        return insertBatch.toString();
     }
 }
