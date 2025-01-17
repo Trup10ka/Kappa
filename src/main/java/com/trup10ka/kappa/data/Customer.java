@@ -9,4 +9,15 @@ public record Customer(
     int customerCredits
 )
 {
+    @Override
+    public String toString()
+    {
+        return """
+                --- %s %s ---
+                
+                Sex: %s
+                Credits: %d
+                -------------
+                """.formatted(firstName, lastName, sex, customerCredits);
+    }
 }

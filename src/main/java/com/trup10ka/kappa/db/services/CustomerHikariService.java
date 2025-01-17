@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
+import java.util.List;
 
 public class CustomerHikariService extends DatabaseService implements CustomerService
 {
@@ -120,12 +121,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
 
             if (resultSet.next())
             {
-                return new Customer(
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        CustomerSex.valueOf(resultSet.getString("sex")),
-                        resultSet.getInt("customer_credits")
-                );
+                return parseCustomerFromResultSet(resultSet);
             }
         }
         catch (SQLException e)
@@ -151,11 +147,7 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
 
             if (resultSet.next())
             {
-                return new Customer(
-                        resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        CustomerSex.valueOf(resultSet.getString("sex")),
-                        resultSet.getInt("customer_credits"));
+                return parseCustomerFromResultSet(resultSet);
             }
         }
         catch (SQLException e)
@@ -166,18 +158,65 @@ public class CustomerHikariService extends DatabaseService implements CustomerSe
         return null;
     }
 
+    @Override
+    public List<Customer> getAllCustomers()
+    {
+        String selectAllCustomers = "SELECT * FROM customer";
+
+        try (var connection = dbClient.getDataSource().getConnection())
+        {
+            PreparedStatement statement = connection.prepareStatement(selectAllCustomers);
+            ResultSet resultSet = statement.executeQuery();
+
+            return createCustomerListFromResultSet(resultSet);
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return List.of();
+        }
+    }
+
+    private List<Customer> createCustomerListFromResultSet(ResultSet resultSet)
+    {
+        try (resultSet)
+        {
+            List<Customer> customers = new java.util.ArrayList<>();
+            while (resultSet.next())
+            {
+                customers.add(parseCustomerFromResultSet(resultSet));
+            }
+            return customers;
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+            return List.of();
+        }
+    }
+
+    private Customer parseCustomerFromResultSet(ResultSet resultSet) throws SQLException
+    {
+        return new Customer(
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                CustomerSex.valueOf(resultSet.getString("sex")),
+                resultSet.getInt("customer_credits"));
+    }
+
     private int returnCustomerIdFromResultSet(ResultSet resultSet)
     {
         try (resultSet)
         {
             if (resultSet.next())
                 return resultSet.getInt(1);
+            return -1;
         }
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
+            return -1;
         }
-        return -1;
     }
 
     private PreparedStatement createUpdateStatement(Connection connection, String sql, Customer customer, int customerId) throws SQLException

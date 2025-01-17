@@ -4,6 +4,7 @@ import com.trup10ka.kappa.cli.commands.*;
 import com.trup10ka.kappa.cli.commands.customer.DeleteCustomerCommand;
 import com.trup10ka.kappa.cli.commands.customer.ImportCustomersCommand;
 import com.trup10ka.kappa.cli.commands.customer.InsertCustomerCommand;
+import com.trup10ka.kappa.cli.commands.customer.ShowAllCustomersCommand;
 import com.trup10ka.kappa.cli.commands.order.ShowAllOrders;
 import com.trup10ka.kappa.cli.commands.order.DeleteOrderCommand;
 import com.trup10ka.kappa.cli.commands.order.InsertOrderCommand;
@@ -121,6 +122,11 @@ public class CliClient
                 entry(
                         SHOW_ALL_CUSTOMERS_ORDERS.identifier,
                         new ShowAllOrders(SHOW_ALL_CUSTOMERS_ORDERS, serviceManager.getOrderService())
+                ),
+
+                entry(
+                        SHOW_CUSTOMERS.identifier,
+                        new ShowAllCustomersCommand(SHOW_CUSTOMERS, serviceManager.getCustomerService())
                 ),
 
                 entry(

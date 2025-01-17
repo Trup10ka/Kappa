@@ -7,6 +7,7 @@ public enum CommandIdentifier
 
     /* --- Show commands --- */
     SHOW_ALL_CUSTOMERS_ORDERS("sao"),
+    SHOW_CUSTOMERS("sc"),
 
     /* --- Create commands --- */
     INSERT_CUSTOMER("cc"),

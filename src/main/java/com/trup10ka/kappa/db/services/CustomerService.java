@@ -4,6 +4,8 @@ import com.trup10ka.kappa.data.Customer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public interface CustomerService
 {
     int addCustomer(@NotNull Customer customer);
@@ -19,4 +21,6 @@ public interface CustomerService
 
     @Nullable
     Customer getCustomerByName(@NotNull String firstName, @NotNull String lastName);
+
+    List<Customer> getAllCustomers();
 }
