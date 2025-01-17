@@ -8,6 +8,7 @@ public enum CommandIdentifier
     /* --- Show commands --- */
     SHOW_ALL_CUSTOMERS_ORDERS("sao"),
     SHOW_CUSTOMERS("sc"),
+    SHOW_PRODUCT_CATEGORIES("spc"),
 
     /* --- Create commands --- */
     INSERT_CUSTOMER("cc"),
@@ -24,6 +25,7 @@ public enum CommandIdentifier
     /* --- Export/Import commands --- */
     EXPORT_MOST_ORDERED_PRODUCT("ep"),
     IMPORT_CUSTOMERS("ic"),
+    IMPORT_PRODUCTS_CATEGORIES("ipc"),
 
     /* --- Util commands --- */
     SET_ISOLATION_LEVEL("sil"),

@@ -18,6 +18,7 @@ public class ShowAllCustomersCommand extends Command
     {
         super(identifier);
         this.customerService = customerService;
+        setShortDescription("See all customers");
     }
 
     @Override

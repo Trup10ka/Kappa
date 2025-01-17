@@ -9,6 +9,8 @@ import com.trup10ka.kappa.cli.commands.order.ShowAllOrders;
 import com.trup10ka.kappa.cli.commands.order.DeleteOrderCommand;
 import com.trup10ka.kappa.cli.commands.order.InsertOrderCommand;
 import com.trup10ka.kappa.cli.commands.product.ExportMostOrderedProductCommand;
+import com.trup10ka.kappa.cli.commands.product.ImportProductCategoriesCommand;
+import com.trup10ka.kappa.cli.commands.product.ShowProductCategoriesCommand;
 import com.trup10ka.kappa.cli.commands.util.ExitCommand;
 import com.trup10ka.kappa.cli.commands.util.HelpCommand;
 import com.trup10ka.kappa.cli.commands.util.SimulateDirtyReadCommand;
@@ -130,6 +132,11 @@ public class CliClient
                 ),
 
                 entry(
+                        SHOW_PRODUCT_CATEGORIES.identifier,
+                        new ShowProductCategoriesCommand(SHOW_PRODUCT_CATEGORIES, serviceManager.getProductService())
+                ),
+
+                entry(
                         INSERT_CUSTOMER.identifier,
                         new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService())
                 ),
@@ -168,6 +175,11 @@ public class CliClient
                 entry(
                         IMPORT_CUSTOMERS.identifier,
                         new ImportCustomersCommand(IMPORT_CUSTOMERS, serviceManager.getAggregatedDataService())
+                ),
+
+                entry(
+                        IMPORT_PRODUCTS_CATEGORIES.identifier,
+                        new ImportProductCategoriesCommand(IMPORT_PRODUCTS_CATEGORIES, serviceManager.getAggregatedDataService())
                 ),
 
                 entry(
