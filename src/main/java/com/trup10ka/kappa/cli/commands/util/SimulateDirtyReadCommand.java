@@ -14,6 +14,20 @@ import java.sql.Statement;
 
 import static com.trup10ka.kappa.util.ThreadUtil.sleepSeconds;
 
+/**
+ * Command for simulating a dirty read scenario by creating a template customer and performing transactions
+ * with the isolation level set to {@link Connection#TRANSACTION_READ_UNCOMMITTED} to demonstrate dirty reads.
+ * <p>
+ * This command demonstrates how dirty reads occur when one transaction reads uncommitted data from another transaction.
+ * It performs the following steps:
+ * <ul>
+ *     <li>Creates a template user with initial credits.</li>
+ *     <li>Starts a transaction to update the user credits, but does not commit the transaction.</li>
+ *     <li>Starts a second transaction to read the uncommitted data (demonstrating a dirty read).</li>
+ *     <li>Rolls back the first transaction and starts a third transaction to read the committed data.</li>
+ * </ul>
+ * </p>
+ */
 public class SimulateDirtyReadCommand extends IsolationSecurityTestCommand
 {
     public SimulateDirtyReadCommand(@NotNull CommandIdentifier identifier, CustomerService customerService, DbClient dbClient)
