@@ -79,3 +79,17 @@ FROM product_to_order pto
 JOIN product p ON pto.product_id = p.id
 GROUP BY p.name
     ORDER BY total_ordered DESC;
+
+
+CREATE VIEW customer_products_in_order AS
+SELECT c.first_name AS customer_first_name, c.last_name AS customer_last_name, p.name AS product_name, pto.number_of_items AS number_of_items
+FROM customer c
+JOIN (
+    SELECT o.id, o.customer_id
+    FROM `order` o
+) o ON c.id = o.customer_id
+JOIN (
+    SELECT pto.order_id, pto.product_id, pto.number_of_items
+    FROM product_to_order pto
+) pto ON o.id = pto.order_id
+JOIN product p ON pto.product_id = p.id;
