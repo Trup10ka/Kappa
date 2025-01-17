@@ -15,4 +15,8 @@ public record KappaConfig(
     {
         return String.format("jdbc:mysql://%s/%s", dbHost, dbName);
     }
+    public String getDbUrlWithoutDbName()
+    {
+        return String.format("jdbc:mysql://%s", dbHost);
+    }
 }

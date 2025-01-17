@@ -8,8 +8,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class HikariDbClient extends DbClient
 {
@@ -39,19 +42,27 @@ public class HikariDbClient extends DbClient
     }
 
     @Override
-    public void initDatabase() throws InvalidConfigException
+    public void initDatabase()
     {
-        try (Connection connection = this.getDataSource().getConnection())
+        HikariConfig config = createNonPooledConfig();
+
+        try (HikariDataSource hikariDataSource = new HikariDataSource(config);
+                Connection connection = hikariDataSource.getConnection())
         {
-            if (!connection.isValid(2))
-            {
-                throw new InvalidConfigException("Failed to validate the connection.");
-            }
+            initDbScheme(connection);
         }
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
-            throw new InvalidConfigException("Failed to establish a connection. Reason: " + e.getMessage());
+        }
+
+        try (Connection connection = hikariDataSource.getConnection())
+        {
+            initViews(connection);
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -84,6 +95,60 @@ public class HikariDbClient extends DbClient
         config.setTransactionIsolation(this.config.dbIsolationLevel().value);
         config.setConnectionTimeout(30000); // 30 seconds
         config.setMaxLifetime(1800000); // 30 minutes
+    }
+
+    private HikariConfig createNonPooledConfig()
+    {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(this.config.getDbUrlWithoutDbName());
+        config.setUsername(this.config.dbUser());
+        config.setPassword(this.config.dbPassword());
+        return config;
+    }
+
+    private String loadSchemeFromResource()
+    {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("scheme.sql"))
+        {
+            if (inputStream == null)
+            {
+                System.out.println("Could not find scheme in resources, if there is no DB on the server, the program will crash!");
+                return "SELECT 1";
+            }
+
+            return new String(inputStream.readAllBytes());
+        }
+        catch (IOException e)
+        {
+            System.out.println("Could not load scheme, if there is no DB on server, the program will crash!");
+            return "SELECT 1";
+        }
+    }
+
+    private void initDbScheme(Connection connection) throws SQLException
+    {
+        Statement initScheme = connection.createStatement();
+        String[] batches = loadSchemeFromResource().split(";");
+        for (String batch : batches)
+        {
+            if (batch.trim().toUpperCase().startsWith("CREATE OR REPLACE VIEW") || batch.isBlank())
+            {
+                continue;
+            }
+            initScheme.addBatch(batch);
+        }
+        initScheme.executeBatch();
+    }
+
+    private void initViews(Connection connection) throws SQLException
+    {
+        Statement initScheme = connection.createStatement();
+        String[] batches = loadSchemeFromResource().split(";");
+        for (String batch : batches)
+            if (batch.trim().toUpperCase().startsWith("CREATE OR REPLACE VIEW"))
+            {
+                initScheme.executeUpdate(batch);
+            }
     }
 
     @Override
