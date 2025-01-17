@@ -73,7 +73,7 @@ public class InsertOrderCommand extends Command
 
     private Order parseOrder(Map<String, String> parsedArguments)
     {
-        int customerId = Integer.parseInt(parsedArguments.get("-cid"));
+        int customerId = tryParseInt(parsedArguments.get("-cid"));
         String placeDate = parsedArguments.get("-pd");
         float price = Float.parseFloat(parsedArguments.get("-p"));
         String deliveryAddress = parsedArguments.get("-da");
@@ -81,9 +81,22 @@ public class InsertOrderCommand extends Command
         String notes = parsedArguments.get("-n");
 
         Date expectedDelivery = parseDate(parsedArguments.get("-ed"));
-        if (expectedDelivery == null)
+        if (expectedDelivery == null || customerId == -1)
             return null;
 
         return new Order(customerId, placeDate, price, deliveryAddress, deliveryZip, expectedDelivery, notes);
+    }
+
+    private int tryParseInt(String value)
+    {
+        try
+        {
+            return Integer.parseInt(value);
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println("Customer ID is not of type int");
+            return -1;
+        }
     }
 }

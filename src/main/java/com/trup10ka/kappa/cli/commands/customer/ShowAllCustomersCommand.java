@@ -40,6 +40,12 @@ public class ShowAllCustomersCommand extends Command
     @Override
     public String getHelp()
     {
-        return "";
+        return """
+                ========================================================================================================
+                sac - See all customers
+                Usage:
+                    sc
+                ========================================================================================================
+                """;
     }
 }

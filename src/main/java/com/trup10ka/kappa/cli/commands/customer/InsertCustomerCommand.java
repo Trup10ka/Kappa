@@ -69,7 +69,7 @@ public class InsertCustomerCommand extends Command
                 ===================================================================================================================================================
                     cc - Inserts a new customer into the database
                 
-                    Usage: insert-customer -fn <first name> -ln <last name> -s <sex> -c <credits>
+                    Usage: cc -fn <first name> -ln <last name> -s <sex> -c <credits>
                 
                     Options:
                         -fn : First name of the customer
