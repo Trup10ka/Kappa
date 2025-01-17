@@ -8,7 +8,7 @@ public class TypeUtil
         {
             return Integer.parseInt(number);
         }
-        catch (NumberFormatException e)
+        catch (NumberFormatException | NullPointerException e)
         {
             System.out.println("You provided incorrect format for " + fieldName + ". Correct format is integer");
             return -1;
@@ -21,7 +21,7 @@ public class TypeUtil
         {
             return Float.parseFloat(number);
         }
-        catch (NumberFormatException e)
+        catch (NumberFormatException | NullPointerException e)
         {
             System.out.println("You provided incorrect format for " + fieldName + ". Correct format is double");
             return -1;
