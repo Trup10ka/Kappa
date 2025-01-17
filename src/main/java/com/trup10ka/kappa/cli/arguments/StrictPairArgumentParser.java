@@ -33,12 +33,12 @@ public class StrictPairArgumentParser implements CommandArgumentParser
             if (keyValue.length != 2 || keyValue[1].isEmpty())
             {
                 System.out.println("Missing value for key: " + keyValue[0]);
-                return new HashMap<>();
+                continue;
             }
             if (!validKeys.contains(keyValue[0]))
             {
                 System.out.println("Unrecognized key: " + keyValue[0]);
-                return new HashMap<>();
+                continue;
             }
             result.put(keyValue[0], keyValue[1]);
         }
