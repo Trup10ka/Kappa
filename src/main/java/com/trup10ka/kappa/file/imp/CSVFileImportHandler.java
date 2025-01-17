@@ -9,6 +9,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.trup10ka.kappa.util.FileUtil.createParentDirectoriesIfNotExists;
+
 public class CSVFileImportHandler implements ImportHandler
 {
 
@@ -18,7 +20,13 @@ public class CSVFileImportHandler implements ImportHandler
         List<Customer> customers = new ArrayList<>();
 
         File file = new File(IMPORT_FOLDER + filePath);
-        FileUtil.createParentDirectoriesIfNotExists(file);
+        createParentDirectoriesIfNotExists(file);
+
+        if (!file.exists())
+        {
+            System.out.println("File does not exist: " + filePath);
+            return customers;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file)))
         {
