@@ -1,11 +1,15 @@
 package com.trup10ka.kappa.db.services;
 
+import com.trup10ka.kappa.data.FatOrder;
 import com.trup10ka.kappa.data.Order;
+import com.trup10ka.kappa.data.Product;
 import com.trup10ka.kappa.db.DbClient;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderHikariService extends DatabaseService implements OrderService
 {
@@ -93,12 +97,13 @@ public class OrderHikariService extends DatabaseService implements OrderService
     }
 
     @Override
-    public List<Order> getAllOrders()
+    public List<FatOrder> getAllOrders()
     {
         try (Connection connection = dbClient.getDataSource().getConnection())
         {
+            String sql = "SELECT customer_first_name, customer_last_name, product_name, number_of_items FROM customer_products_in_order";
             Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT * FROM `order`");
+            ResultSet result = statement.executeQuery(sql);
             return parseOrders(result);
         }
         catch (SQLException | NullPointerException e)
@@ -126,22 +131,30 @@ public class OrderHikariService extends DatabaseService implements OrderService
         return preparedStatement;
     }
 
-    private List<Order> parseOrders(ResultSet result) throws SQLException
+    private List<FatOrder> parseOrders(ResultSet result) throws SQLException
     {
-        List<Order> orders = new ArrayList<>();
+        Map<String, FatOrder> orderMap = new HashMap<>();
+
         while (result.next())
         {
-            orders.add(new Order(
-                    result.getInt("customer_id"),
-                    result.getString("place_date"),
-                    result.getFloat("price"),
-                    result.getString("delivery_address"),
-                    result.getString("delivery_zip"),
-                    result.getDate("expected_delivery"),
-                    result.getString("delivery_note")
-            ));
+            String customerFirstName = result.getString("customer_first_name");
+            String customerLastName = result.getString("customer_last_name");
+            String productName = result.getString("product_name");
+            int numberOfItems = result.getInt("number_of_items");
+
+            String customerKey = customerFirstName + " " + customerLastName;
+
+            FatOrder order = orderMap.get(customerKey);
+            if (order == null)
+            {
+                order = new FatOrder(customerFirstName, customerLastName, new HashMap<>());
+                orderMap.put(customerKey, order);
+            }
+
+            order.products().put(new Product(productName), numberOfItems);
         }
-        return orders;
+
+        return new ArrayList<>(orderMap.values());
     }
 
     private Order parseOrder(ResultSet result) throws SQLException

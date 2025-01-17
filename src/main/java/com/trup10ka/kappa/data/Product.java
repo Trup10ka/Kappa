@@ -10,4 +10,8 @@ public record Product(
         double productPrice
 )
 {
+    public Product(String productName)
+    {
+        this("Unknown", productName, "Unknown", false, 0.0);
+    }
 }

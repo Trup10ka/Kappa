@@ -4,6 +4,7 @@ import com.trup10ka.kappa.cli.commands.*;
 import com.trup10ka.kappa.cli.commands.customer.DeleteCustomerCommand;
 import com.trup10ka.kappa.cli.commands.customer.ImportCustomersCommand;
 import com.trup10ka.kappa.cli.commands.customer.InsertCustomerCommand;
+import com.trup10ka.kappa.cli.commands.order.ShowAllOrders;
 import com.trup10ka.kappa.cli.commands.order.DeleteOrderCommand;
 import com.trup10ka.kappa.cli.commands.order.InsertOrderCommand;
 import com.trup10ka.kappa.cli.commands.product.ExportMostOrderedProductCommand;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import static com.trup10ka.kappa.cli.commands.CommandIdentifier.*;
+import static java.util.Map.entry;
 
 
 public class CliClient
@@ -113,34 +115,62 @@ public class CliClient
 
         HelpCommand helpCommand = new HelpCommand(HELP);
 
-        commands = Map.of(
-                INSERT_CUSTOMER.identifier,
-                new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService()),
 
+        commands = Map.ofEntries(
+
+                entry(
+                        SHOW_ALL_CUSTOMERS_ORDERS.identifier,
+                        new ShowAllOrders(SHOW_ALL_CUSTOMERS_ORDERS, serviceManager.getOrderService())
+                ),
+
+                entry(
+                        INSERT_CUSTOMER.identifier,
+                        new InsertCustomerCommand(INSERT_CUSTOMER, serviceManager.getCustomerService())
+                ),
+
+                entry(
                 INSERT_ORDER.identifier,
-                new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService()),
+                        new InsertOrderCommand(INSERT_ORDER, serviceManager.getOrderService())
+                ),
 
+                entry(
                 DELETE_CUSTOMER.identifier,
-                new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService()),
+                        new DeleteCustomerCommand(DELETE_CUSTOMER, serviceManager.getCustomerService())
+                ),
 
+                entry(
                 DELETE_ORDER.identifier,
-                new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService()),
+                        new DeleteOrderCommand(DELETE_ORDER, serviceManager.getOrderService())
+                ),
 
+                entry(
                 SIMULATE_DIRTY_READ.identifier,
-                new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient),
+                        new SimulateDirtyReadCommand(SIMULATE_DIRTY_READ, serviceManager.getCustomerService(), dbClient)
+                ),
 
+                entry(
                 SIMULATE_DIRTY_WRITE.identifier,
-                new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient),
+                        new SimulateDirtyWritesCommand(SIMULATE_DIRTY_WRITE, serviceManager.getCustomerService(), dbClient)
+                ),
 
+                entry(
                 EXPORT_MOST_ORDERED_PRODUCT.identifier,
                 new ExportMostOrderedProductCommand(
-                        EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv")),
+                                EXPORT_MOST_ORDERED_PRODUCT, serviceManager.getAggregatedDataService(), new CSVFileExportHandler("export/most_ordered_products.csv"))
+                ),
 
+                entry(
                 IMPORT_CUSTOMERS.identifier,
-                new ImportCustomersCommand(IMPORT_CUSTOMERS, serviceManager.getAggregatedDataService()),
+                        new ImportCustomersCommand(IMPORT_CUSTOMERS, serviceManager.getAggregatedDataService())
+                ),
 
-                HELP.identifier, helpCommand,
+                entry(
+                        HELP.identifier, helpCommand
+                ),
+
+                entry(
                 EXIT.identifier, new ExitCommand()
+                )
         );
 
         helpCommand.initHelpCommand(commands.values().stream().toList());

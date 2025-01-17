@@ -14,10 +14,8 @@ public record FatOrder(
     public String toString()
     {
         return """
-        
         Customer: %s %s
         Products: %s
-        
         """.formatted(customerFirstName, customerLastName, products.entrySet().stream()
                 .map(entry -> entry.getKey().productName() + ": " + entry.getValue())
                 .toList());
